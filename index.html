@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Individual Portfolio Sections</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body { background: #000; color: #fff; }
+
+    .navlist {
+      display: flex; gap: 3.5rem;
+      height: 15vh; justify-content: center; align-items: center;
+      position: fixed; top: 0; left: 0;
+      background: #262525; width: 100%;
+      z-index: 1000;
+    }
+    .navlist li { list-style: none; }
+    .navlist li a {
+      text-decoration: none; text-transform: uppercase;
+      font-size: 1rem; color: #fff; position: relative;
+    }
+    .navlist li a::after, .navlist .active::after {
+      content: ""; position: absolute; background: #fff;
+      width: 100%; height: .1rem; left: 0; bottom: -5px;
+      transform: scaleX(0); transform-origin: bottom right;
+      transition: transform .5s;
+    }
+    .navlist li a:hover::after, .navlist .active::after {
+      transform: scaleX(1); transform-origin: bottom left;
+    }
+    section {
+      padding: 4rem 2rem;
+      background: #000;
+    }
+
+    .portfolio { display: flex; flex-direction: column; margin-top: 15vh; }
+    .portfolio-section {
+      display: flex; min-height: 100vh;
+    }
+    .left-container, .right-container {
+      height: 100vh; display: flex; align-items: center; position: relative;
+    }
+    .left-container {
+      background: #262525; width: 70%; padding-left: 3rem;
+    }
+    .right-container {
+      background: linear-gradient(-45deg, #3877ff, #262525 70%); width: 30%;
+    }
+    .icons { display: flex; flex-direction: column; gap: 2rem; }
+    .icons a i {
+      color: #bbb; font-size: 1.7rem; transition: 0.3s;
+    }
+    .icons a i:hover {
+      cursor: pointer; color: #0ef; transform: scale(1.2);
+    }
+    .content { margin-left: 4rem; align-items: center; justify-content: center;}
+    .content .intro { font-size: 1.5rem; }
+    .content .intro span, .content h1 { color: #5DB9EE; }
+    .content h1 { font-size: 4rem; }
+    .content .detail {
+      margin: 1.1rem 0 3rem 0; line-height: 1.8rem; max-width: 38rem;
+    }
+     /* Calculator styles */
+     .project button {
+  padding: .8rem 1.8rem;
+  font-size: 1.2rem;
+  color: #fff;
+  background: linear-gradient(45deg, #5DB9EE, #3877ff);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(93, 185, 238, 0.5);
+  transition: all 0.4s ease;
+}
+
+.project button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(93, 185, 238, 0.8);
+}
+.calculator {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 2000;
+  position: fixed;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  background: #333;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.calculator.show {
+  opacity: 1;
+  visibility: visible;
+}
+  
+    .calculator input {
+      width: 100%; height: 60px; font-size: 24px;
+      text-align: right; padding: 10px;
+      border: none; border-radius: 10px;
+      margin-bottom: 20px; outline: none;
+      background: #111; color: #fff;
+    }
+    .button button {
+      border: .1rem solid #5DB9EE; font-size: 1.1rem;
+      padding: .8rem 1.5rem; border-radius: .5rem;
+      background: transparent; color: #5DB9EE;
+      margin-right: 1rem; cursor: pointer; transition: .5s ease;
+    }
+    .button button:first-child { background: #5DB9EE; color: #262525; }
+    .button button:hover { background: #5DB9EE; color: #262525; }
+    .button button:first-child:hover { background: transparent; color: #5DB9EE; }
+    .design .circle {
+      aspect-ratio: 1; position: absolute; border-radius: 50%;
+      top: 50%; left: 30%; transform: translate(-50%, -50%);
+    }
+    .circle:nth-child(1) {
+      background: linear-gradient(90deg, transparent 50%, #262525 50%);
+      width: 38rem;
+    }
+    .circle:nth-child(2) {
+  width: 30rem; 
+  background-size: cover; 
+  background-repeat: no-repeat;
+  border: .2rem solid white;
+  box-shadow: 0 0 1rem #fff, inset 0 0 1rem #fff,
+              0 0 2rem #3877ff, inset 0 0 2rem #3877ff,
+              0 0 4rem #3877ff, inset 0 0 4rem #3877ff;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 1rem #fff, inset 0 0 1rem #fff,
+                0 0 2rem #3877ff, inset 0 0 2rem #3877ff,
+                0 0 4rem #3877ff, inset 0 0 4rem #3877ff;
+  }
+  100% {
+    box-shadow: 0 0 2rem #fff, inset 0 0 2rem #fff,
+                0 0 4rem #3877ff, inset 0 0 4rem #3877ff,
+                0 0 6rem #3877ff, inset 0 0 6rem #3877ff;
+  }
+}
+    section {
+      padding: 4rem 2rem; background: #000;
+    }
+    section h2 {
+      text-align: center; margin-bottom: 2rem;
+      color: #5DB9EE; font-size: 2rem;
+    }
+    .about-content, .project {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2rem; max-width: 1000px; margin: auto; flex-direction: column; border: 1px solid #5DB9EE; padding: 1rem; border-radius: 8px;
+    }
+    .about-content img {
+      width: 300px; border-radius: 1o0px; border: 2px solid #5DB9EE;
+    }
+    .about-content p, .project p {
+      max-width: 1200px; line-height: 2;
+    }
+    .project { flex-direction: column; border: 1px solid #5DB9EE; padding: 1rem; border-radius: 8px; }
+    .social-icons { text-align: center; margin-top: 1rem; }
+    .social-icons a {
+      color: #5DB9EE; margin: 0 1rem; font-size: 1.8rem; transition: 0.3s;
+    }
+    .social-icons a:hover { color: #fff; }
+    footer {
+      text-align: center; padding: 0.60rem;
+      background: #3427e3; margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <ul class="navlist">
+    <li><a href="#">Home</a></li>
+    <li><a href="#about-ehtesham">Ehtesham</a></li>
+    <li><a href="#about-raiyan">Raiyan</a></li>
+    <li><a href="#about-farhan">Farhan</a></li>
+  </ul>
+
+  <div class="portfolio">
+    <!-- Ehtesham -->
+    <div class="portfolio-section">
+      <div class="left-container">
+        <div class="icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <div class="content">
+          <p class="intro">Hi! I Am <span>Ehtesham Siddique</span></p>
+          <h1>Web Developer.</h1>
+          <p class="detail">IT student, 2nd year, passionate about clean interfaces.</p>
+          <div class="button">
+            <button>Hire Me</button><button>View Project</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="design">
+          <div class="circle"></div>
+          <div class="circle" style="background-image: url(Ehtesham.jpg);"></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="about-ehtesham">
+      <h2>About Ehtesham</h2>
+      <div class="about-content">
+        <p>Hello, I'm Ehtesham. I build smooth and engaging web apps using HTML, CSS, and JavaScript, focusing on minimal and functional design.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Ehtesham's Projects</h2>
+      <div class="project"><h3>Responsive Landing Page</h3><p>This Portfolio.</p></div>
+    </section>
+    <section>
+      <h2>Contact Ehtesham</h2>
+      <div class="social-icons">
+        <a href="#"><i class="fa-solid fa-phone"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/raiyan992" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+    </section>
+
+    <!-- Raiyan -->
+    <div class="portfolio-section">
+      <div class="left-container">
+        <div class="icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/r_akhtar/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://t.ly/G-97A" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/raiyan-akhtar-75679b362?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://github.com/raiyan992" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <div class="content">
+          <p class="intro">Hi! I Am <span>Raiyan Akhtar</span></p>
+          <h1>Web Developer.</h1>
+          <p class="detail">Focused on modern web technologies & user experiences.</p>
+          <div class="button">
+            <button>Hire Me</button><button>View Project</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="design">
+          <div class="circle"></div>
+          <div class="circle" style="background-image: url(raiyanak.jpg);"></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="about-raiyan">
+      <h2>About Raiyan</h2>
+      <div class="about-content">
+        <h3>Introduction</h3>
+        <p>I'm Raiyan, I am web Development Enthusiast ,doing internship at <b>Tryidol Technologies Innovation</b> Experienced in responsive sites with JavaScript & CSS animations.</p>
+      </div>
+    </section>
+    </section>
+    <section id="about-raiyan">
+      <div class="about-content">
+        <h3>Education</h3>
+        <p>I have Complete 10th class, From S.B.H.S School Bihar board, I had 85.20% percent in Class 10th. I am Corrently Doing a Diploma in information technology(2nd year), From maulana Azad National Urdu University Hyderabad.</p>
+      </div>
+    </section>
+    <section id="about-raiyan">
+      <div class="about-content">
+      <h3>Skills</h3>
+        <p>HTML, CSS (Basic Level), MS Office</p>
+      </div>
+      </section>
+      <section id="about-raiyan">
+      <div class="about-content">
+      <h3>Hobbies</h3>
+        <p>I want to be a Software Engineer(web Developer)</p>
+      </div>
+    </section>
+    <section>
+      <h2>Raiyan's Projects</h2>
+      <div class="project"><h2><u>Project One</u></h2><h3>Calculator App</h3><p> Calculator
+A simple and user-friendly calculator built using HTML, CSS, and JavaScript. This calculator can perform basic arithmetic operations like addition, subtraction, multiplication, and division.
+
+🚀 Features
+
+Easy-to-use interface
+
+Responsive design (works on mobile and desktop)
+
+Supports:
+
+Addition (+)
+
+Subtraction (−)
+
+Multiplication (×)
+
+Division (÷)
+
+Clear (C) and Backspace (←)
+
+
+Real-time calculation display.</p>
+<button onclick="openCalculator()">Open Calculator</button>
+<h2><u>Project two</u></h2><h3>This Portfolio</h3>
+<p>A portfolio is a professional collection of a person's work, skills, qualifications, and achievements. It is commonly used by students, job seekers, freelancers, and creative professionals to showcase their talents and past projects. A well-made portfolio helps you demonstrate your capabilities to employers, clients, or educational institutions.</p>
+</div>
+    </section>
+    <section>
+      <h2>Contact Raiyan</h2>
+      <div class="social-icons">
+        <a href="#"><i class="fa-solid fa-phone"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="https://twitter.com/@RaiyanAKHTAR0231" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/raiyan992" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+    </section>
+
+    <!-- Farhan -->
+    <div class="portfolio-section">
+      <div class="left-container">
+        <div class="icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://t.ly/G-97A" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <div class="content">
+          <p class="intro">Hi! I Am <span>Farhan Alam</span></p>
+          <h1>Web Developer.</h1>
+          <p class="detail">Passionate about coding and building innovative solutions.</p>
+          <div class="button">
+            <button>Hire Me</button><button>View Project</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="design">
+          <div class="circle"></div>
+          <div class="circle" style="background-image: url(farhan.jpg);"></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="about-farhan">
+      <h2>About Farhan</h2>
+      <div class="about-content">
+        <p>Farhan, a 2nd year IT student, builds innovative solutions with modern JS frameworks & backend integration.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Farhan's Projects</h2>
+      <div class="project"><h3>Task Manager</h3><p>Manage daily tasks with local storage support using JavaScript.</p></div>
+    </section>
+    <section>
+      <h2>Contact Farhan</h2>
+      <div class="social-icons">
+        <a href="#"><i class="fa-solid fa-phone"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://github.com/raiyan992" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Team Portfolio. All rights reserved.</p>
+  </footer>
+  <!-- Calculator HTML -->
+<div class="calculator" id="calculator">
+  <input type="text" id="display" readonly>
+  <div class="buttons">
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="deleteChar()">DEL</button>
+    <button onclick="appendChar('(')">(</button>
+    <button onclick="appendChar(')')">)</button>
+    <button onclick="appendChar('sin(')">sin</button>
+    <button onclick="appendChar('cos(')">cos</button>
+    <button onclick="appendChar('tan(')">tan</button>
+    <button onclick="appendChar('')">x^y</button>
+    <button onclick="appendChar('7')">7</button>
+    <button onclick="appendChar('8')">8</button>
+    <button onclick="appendChar('9')">9</button>
+    <button onclick="appendChar('+')">+</button>
+    <button onclick="appendChar('4')">4</button>
+    <button onclick="appendChar('5')">5</button>
+    <button onclick="appendChar('6')">6</button>
+    <button onclick="appendChar('*')">×</button>
+    <button onclick="appendChar('1')">1</button>
+    <button onclick="appendChar('2')">2</button>
+    <button onclick="appendChar('3')">3</button>
+    <button onclick="appendChar('-')">-</button>
+    <button onclick="appendChar('0')">0</button>
+    <button onclick="appendChar('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendChar('/')">÷</button>
+    <button onclick="appendChar('pi')">π</button>
+    <button onclick="appendChar('e')">e</button>
+    <button onclick="closeCalculator()">Close</button>
+  </div>
+</div>
+  <script>
+    function openCalculator() {
+  document.getElementById('calculator').classList.add('show');
+}
+function closeCalculator() {
+  document.getElementById('calculator').classList.remove('show');
+}
+  function appendChar(char) {
+    document.getElementById('display').value += char;
+  }
+  function clearDisplay() {
+    document.getElementById('display').value = '';
+  }
+  function deleteChar() {
+    let d = document.getElementById('display');
+    d.value = d.value.slice(0, -1);
+  }
+
+  function calculate() {
+    try {
+      let expression = document.getElementById('display').value
+        .replace(/sin\(/g, 'Math.sin(')
+        .replace(/cos\(/g, 'Math.cos(')
+        .replace(/tan\(/g, 'Math.tan(')
+        .replace(/log\(/g, 'Math.log10(')
+        .replace(/sqrt\(/g, 'Math.sqrt(')
+        .replace(/pi/g, 'Math.PI')
+        .replace(/e/g, 'Math.E');
+      let result = eval(expression);
+      document.getElementById('display').value = result;
+    } catch {
+      alert("Invalid Expression");
+    }
+  }
+  function closeCalculator() {
+    document.getElementById('calculator').style.display = 'none';
+  }
+    window.onload = () => {
+      const circles = document.querySelectorAll('.circle:nth-child(2)');
+      setInterval(() => {
+        circles.forEach(circle => {
+          let scale = 1 + (Math.random() * 0.1);
+          let blur = 1 + Math.random() * 4;
+          circle.style.transform = `translate(-50%, -50%) scale(${scale})`;
+          circle.style.boxShadow = 
+            `0 0 ${blur}rem #fff, inset 0 0 ${blur}rem #fff,
+             0 0 ${blur*2}rem #3877ff, inset 0 0 ${blur*2}rem #3877ff,
+             0 0 ${blur*4}rem #3877ff, inset 0 0 ${blur*4}rem #3877ff`;
+        });
+      }, 2000);
+    }
+    function openCalculator() {
+    let calc = document.getElementById('calculator');
+    calc.classList.add('show');
+  </script>
+</body>
+</html>
